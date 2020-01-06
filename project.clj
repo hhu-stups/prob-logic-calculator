@@ -5,12 +5,13 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :plugins [[lein-ring "0.12.5"]]
   :java-source-paths ["src/java"]
+  :repositories [["snaps" "https://oss.sonatype.org/content/repositories/snapshots/"]]
   :dependencies [
                  [org.clojure/clojure "1.8.0"]
                  [compojure "1.6.1"]
                  [org.clojure/data.json "0.2.6"]
                  [org.clojure/core.async "0.4.490"]
-                 [de.hhu.stups/de.prob2.kernel "3.2.3"]
+                 [de.hhu.stups/de.prob2.kernel "3.9.9"]
                  [hiccup "1.0.5"]
                  [ring/ring-core "1.7.1"]
                  ]

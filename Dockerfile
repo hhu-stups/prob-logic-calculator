@@ -8,3 +8,4 @@ WORKDIR /app
 COPY examples /app/examples
 COPY --from=base  /app/target/evalback-*-standalone.jar /app/evalb.jar
 CMD ["java", "-jar", "/app/evalb.jar"]
+EXPOSE 3000

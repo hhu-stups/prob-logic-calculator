@@ -1,0 +1,2 @@
+CHOOSE x \in 0..100: x^3 - 20*x^2 + 7*x = 14388
+(* Example from https://buttondown.email/hillelwayne/archive/creatively-misusing-tla/ *)

@@ -11,7 +11,7 @@
                  [compojure "1.6.1"]
                  [org.clojure/data.json "0.2.6"]
                  [org.clojure/core.async "0.4.490"]
-                 [de.hhu.stups/de.prob2.kernel "3.10.0"]
+                 [de.hhu.stups/de.prob2.kernel "3.15.0"]
                  [hiccup "1.0.5"]
                  [ring/ring-core "1.7.1"]
                  ]

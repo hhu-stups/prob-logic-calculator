@@ -1,3 +1,9 @@
-\* Knights-Knaves Puzzle *\
- (A <=> (~B \/ ~C)) /\
+\* Knights-Knaves Puzzle from Smullyan *\
+\* Knights always tell the truth, Knaves always lie *\
+\* A,B,C are knights or knaves *\
+
+\* A says: B or C is a knave *\
+ (A <=> (~B \/ ~C)) 
+ /\
+\* B says: A is a knight *\
  (B <=> A)

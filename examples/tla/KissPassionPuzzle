@@ -1,0 +1,14 @@
+(* KISS  KISS = PASSION Puzzle *)
+
+(* Find a different digit (between 0 and 9) for each capital letter in the following equation: *)
+(* K I S S * K I S S = P A S S I O N *)
+(* More complicated than the classical SEND+MORE=MONEY puzzle *)
+
+       K \in (1 .. 9)
+	/\ P \in (1 .. 9)
+	/\ {I, S, A, O, N} \subseteq (0..9)
+	/\ (1000 * K + 100 * I + 10 * S + S) * 
+       (1000 * K + 100 * I + 10 * S + S) 
+       = 
+       1000000 * P + 100000 * A + 10000 * S + 1000 * S + 100 * I + 10 * O + N
+    /\ Cardinality({K, I, S, P, A, O, N}) = 7

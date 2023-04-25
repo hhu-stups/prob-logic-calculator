@@ -7,6 +7,7 @@
   :java-source-paths ["src/java"]
   :repositories [["snaps" "https://oss.sonatype.org/content/repositories/snapshots/"]]
   :dependencies [
+                 [ch.qos.logback/logback-classic "1.3.7"]
                  [org.clojure/clojure "1.8.0"]
                  [compojure "1.6.1"]
                  [org.clojure/data.json "0.2.6"]

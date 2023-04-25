@@ -14,7 +14,7 @@
 ; TODO: remove tla2BAST SNAPSHOT dependency once prob2.kernel
 ;; contains a released version 1.1.5 of tla2BAST
                  [de.hhu.stups/tla2bAST "1.1.5-SNAPSHOT"]
-                 [de.hhu.stups/de.prob2.kernel "3.15.0"]
+                 [de.hhu.stups/de.prob2.kernel "4.12.0"]
                  [hiccup "1.0.5"]
                  [ring/ring-core "1.7.1"]
                  ]

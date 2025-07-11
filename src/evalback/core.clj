@@ -16,6 +16,7 @@
            com.google.inject.Guice
            com.google.inject.Stage
            de.prob.animator.command.CbcSolveCommand
+           de.prob.animator.command.GetVersionCommand
            (de.prob.animator.domainobjects ClassicalB TLA EvalResult ComputationNotCompletedResult)
            de.prob.unicode.UnicodeTranslator
            de.tla2b.exceptions.TLA2BException
@@ -79,9 +80,11 @@
 
 (defn run-eval  [ss {:keys [input formalism] :as resp}]
   (try (let [[cbf introduced] (mk-formula formalism input)
-             c (CbcSolveCommand. cbf)]
-         (.execute ss c)
-         (process-result (.getValue c) cbf introduced resp))
+             version-cmd (GetVersionCommand.)
+             solve-cmd (CbcSolveCommand. cbf)]
+         (.execute ss [version-cmd solve-cmd])
+         (into (process-result (.getValue solve-cmd) cbf introduced resp)
+               {:prob-version (str (.getVersion version-cmd))}))
        (catch Exception e
          (println e)
          (into resp {:status :error
@@ -175,7 +178,8 @@
 (defroutes app 
   (GET "/" [] (resp/redirect "index.html"))
   (GET "/js/examples.js" [] (provide-examples))
-  (ANY "/version" [] (str (.getVersion api)))
+  (ANY "/version" [] (:prob-version (solve {:formalism :b
+                                            :input "1=1"})))
   (POST "/xxx" [formalism input] (if (empty? (.trim  input)) (json/write-str {:output  ""}) old-json-answer))
   (resources "/")
   (not-found "Not Found"))

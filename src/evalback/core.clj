@@ -203,7 +203,6 @@
                 result)
                {}
               )
-             :animator-id (.getId animator)
              :kill-fn (fn [] (.kill animator))))))
 
 (defn create-empty-machine []

@@ -1,22 +1,4 @@
-function createXMLHttpRequest() {
-  var ua;
-  if (window.XMLHttpRequest) {
-    try {
-      ua = new XMLHttpRequest();
-    } catch (e) {
-      ua = false;
-    }
-  } else if (window.ActiveXObject) {
-    try {
-      ua = new ActiveXObject("Microsoft.XMLHTTP");
-    } catch (e) {
-      ua = false;
-    }
-  }
-  return ua;
-}
-
-var req = createXMLHttpRequest();
+var req = new XMLHttpRequest();
 var delay;
 var editor;
 var output;

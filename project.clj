@@ -12,7 +12,7 @@
                  [compojure "1.7.1"]
                  [org.clojure/data.json "2.5.1"]
                  [org.clojure/core.async "1.8.741"]
-                 [de.hhu.stups/de.prob2.kernel "4.15.0"]
+                 [de.hhu.stups/prob-java "4.15.0"]
                  [hiccup "2.0.0"]
                  [ring/ring-core "1.13.0"]
                  ]

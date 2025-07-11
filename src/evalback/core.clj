@@ -77,14 +77,16 @@
       "")))
 
 
+(defn run-eval-internal [ss {:keys [input formalism] :as resp}]
+  (let [[cbf introduced] (mk-formula formalism input)
+        version-cmd (GetVersionCommand.)
+        solve-cmd (CbcSolveCommand. cbf)]
+    (.execute ss [version-cmd solve-cmd])
+    (into (process-result (.getValue solve-cmd) cbf introduced resp)
+          {:prob-version (str (.getVersion version-cmd))})))
 
-(defn run-eval  [ss {:keys [input formalism] :as resp}]
-  (try (let [[cbf introduced] (mk-formula formalism input)
-             version-cmd (GetVersionCommand.)
-             solve-cmd (CbcSolveCommand. cbf)]
-         (.execute ss [version-cmd solve-cmd])
-         (into (process-result (.getValue solve-cmd) cbf introduced resp)
-               {:prob-version (str (.getVersion version-cmd))}))
+(defn run-eval [ss resp]
+  (try (run-eval-internal ss resp)
        (catch Exception e
          (println e)
          (into resp {:status :error

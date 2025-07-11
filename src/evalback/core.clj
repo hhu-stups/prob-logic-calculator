@@ -21,7 +21,7 @@
            de.prob.unicode.UnicodeTranslator
            de.tla2b.exceptions.TLA2BException
            de.prob.MainModule
-           de.prob.scripting.Api
+           de.prob.scripting.ClassicalBFactory
            (de.be4.classicalb.core.parser.node TIdentifierLiteral AImplicationPredicate)))
 
 (def varname [(TIdentifierLiteral. "_lambda_result_")])
@@ -32,7 +32,7 @@
 (defonce worker (atom nil))
 
 (def injector (Guice/createInjector Stage/PRODUCTION [(MainModule.)]))
-(def api (.getInstance injector Api))
+(def b-factory (.getInstance injector ClassicalBFactory))
 
 (defmulti process-result (fn [r _ _ _] (class r)))
 (defmethod process-result EvalResult [res cbf introduced resp]
@@ -196,8 +196,11 @@
       wrap-params))
 
 
-(defn mk-worker [tn]
-  (let [animator (.b_load api tn {"MAXINT" "127" "MININT" "-128"})]
+(defn start-empty-animator []
+  (.load (.create b-factory "MACHINE empty\nEND") {"MAXINT" "127" "MININT" "-128"}))
+
+(defn mk-worker []
+  (let [animator (start-empty-animator)]
     (fn [request]
       (assoc (if request 
                (let [result-future (future (run-eval animator request))
@@ -211,20 +214,10 @@
               )
              :kill-fn (fn [] (.kill animator))))))
 
-(defn create-empty-machine []
-  (let [tf (java.io.File/createTempFile "evalb" ".mch" nil)
-        tn (.getAbsolutePath tf)
-        ]
-    (.deleteOnExit tf)
-    (spit tf "MACHINE empty\nEND")
-    tn))
-
 (defn init []
   (reset! worker (chan instances))
-  (let [tn (create-empty-machine)]
-    (doseq [_ (range instances)]
-      (>!! @worker (mk-worker tn)))
-    )
+  (doseq [_ (range instances)]
+    (>!! @worker (mk-worker)))
   (println :init))
 
 (defn destroy []

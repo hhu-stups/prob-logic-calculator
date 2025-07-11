@@ -14,7 +14,7 @@
                  [org.clojure/core.async "1.8.741"]
                  [de.hhu.stups/de.prob2.kernel "4.15.0"]
                  [hiccup "2.0.0"]
-                 [ring/ring-core "1.14.2"]
+                 [ring/ring-core "1.13.0"]
                  ]
   :main evalback.core
   :ring {:handler evalback.core/handler

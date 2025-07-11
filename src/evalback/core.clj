@@ -12,7 +12,10 @@
             [clojure.core.async :as a :refer [alts!! close! chan <!! >!! timeout]])
   (:use ring.server.standalone
         [ring.middleware file-info file])
-  (:import de.prob.animator.command.CbcSolveCommand
+  (:import
+           com.google.inject.Guice
+           com.google.inject.Stage
+           de.prob.animator.command.CbcSolveCommand
            (de.prob.animator.domainobjects ClassicalB TLA EvalResult ComputationNotCompletedResult)
            de.prob.unicode.UnicodeTranslator
            de.tla2b.exceptions.TLA2BException

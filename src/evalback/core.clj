@@ -197,7 +197,7 @@
 
 
 (defn mk-worker [tn]
-  (let [animator (.b_load api tn)]
+  (let [animator (.b_load api tn {:MAXINT 127 :MININT -128})]
     (fn [request]
       (assoc (if request 
                (let [result-future (future (run-eval animator request))
@@ -216,7 +216,7 @@
         tn (.getAbsolutePath tf)
         ]
     (.deleteOnExit tf)
-    (spit tf "MACHINE empty \n DEFINITIONS \n SET_PREF_MAXINT == 127;\n SET_PREF_MININT == -128;\n END")
+    (spit tf "MACHINE empty\nEND")
     tn))
 
 (defn init []

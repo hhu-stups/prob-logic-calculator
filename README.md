@@ -5,7 +5,7 @@ This is the re-development of the ProB Logic Calculator. The old version is tagg
 ## Acknowledgements
 
 We use some great libaries: 
-- The Skeleton css library (http://www.getskeleton.com/)
+- The Skeleton css library (http://getskeleton.com/)
 - jQuery (https://jquery.com/)
 - CodeMirror (https://codemirror.net/)
 
@@ -17,7 +17,7 @@ the `master` branch.
 
 ## License
 
-The source code is distributed under the EPL license (https://www.eclipse.org/org/documents/epl-v10.html)
+The source code is distributed under the EPL license (https://www.eclipse.org/legal/epl/epl-v10.html)
 
 (c) 2012 Jens Bendisposto, all rights reserved
 

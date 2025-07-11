@@ -197,7 +197,7 @@
 
 
 (defn mk-worker [tn]
-  (let [animator (.b_load api tn {:MAXINT 127 :MININT -128})]
+  (let [animator (.b_load api tn {"MAXINT" "127" "MININT" "-128"})]
     (fn [request]
       (assoc (if request 
                (let [result-future (future (run-eval animator request))

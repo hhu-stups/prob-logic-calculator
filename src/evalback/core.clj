@@ -16,7 +16,7 @@
            (de.prob.animator.domainobjects ClassicalB TLA EvalResult ComputationNotCompletedResult)
            de.prob.unicode.UnicodeTranslator
            de.tla2b.exceptions.TLA2BException
-           de.prob.Main
+           de.prob.MainModule
            de.prob.scripting.Api
            (de.be4.classicalb.core.parser.node TIdentifierLiteral AImplicationPredicate)))
 
@@ -26,6 +26,9 @@
 (def prob-timeout 3000)
 (def request-timeout 6500)
 (defonce worker (atom nil))
+
+(def injector (Guice/createInjector Stage/PRODUCTION [(MainModule.)]))
+(def api (.getInstance injector Api))
 
 (defmulti process-result (fn [r _ _ _] (class r)))
 (defmethod process-result EvalResult [res cbf introduced resp]
@@ -148,8 +151,6 @@
      {:output (str "Error: " result)}
      {:output (valid-reply result input introduced has-free-vars? bindings)})))
 
-(defn get-api [] (.getInstance (Main/getInjector) Api))
-
 (defn old-json-answer [req]
   (let [formalism (get-in req [:params "formalism"])
         input     (get-in req [:params "input"])
@@ -171,7 +172,7 @@
 (defroutes app 
   (GET "/" [] (resp/redirect "index.html"))
   (GET "/js/examples.js" [] (provide-examples))
-  (ANY "/version" [] (str (.getVersion (get-api))))
+  (ANY "/version" [] (str (.getVersion api)))
   (POST "/xxx" [formalism input] (if (empty? (.trim  input)) (json/write-str {:output  ""}) old-json-answer))
   (resources "/")
   (not-found "Not Found"))
@@ -183,7 +184,7 @@
 
 
 (defn mk-worker [tn]
-  (let [animator (.b_load (get-api) tn)]
+  (let [animator (.b_load api tn)]
     (fn [request]
       (assoc (if request 
                (let [result-future (future (run-eval animator request))

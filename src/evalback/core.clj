@@ -86,7 +86,7 @@
           {:prob-version (str (.getVersion version-cmd))})))
 
 (defn run-eval [ss resp]
-  (if (empty? (.trim input))
+  (if (empty? (.trim (:input resp)))
     (into resp {:status :empty})
     (try (run-eval-internal ss resp)
          (catch Exception e

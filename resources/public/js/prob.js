@@ -36,17 +36,17 @@ function probeval() {
 
 function displayOutput(data) {
   var obj = jQuery.parseJSON(data);
-    output.setValue(obj.output);
-    if (obj.highlight > 0) {
-      lasthighlight = obj.highlight - 1;
-      editor.setLineClass(lasthighlight, null, "activeline");
-      output.setOption("theme", "red");
-    } else {
-      if (lasthighlight > -1) {
-        editor.setLineClass(lasthighlight, null, null);
-        output.setOption("theme", "green");
-      }
+  output.setValue(obj.output);
+  if (obj.highlight > 0) {
+    lasthighlight = obj.highlight - 1;
+    editor.setLineClass(lasthighlight, null, "activeline");
+    output.setOption("theme", "red");
+  } else {
+    if (lasthighlight > -1) {
+      editor.setLineClass(lasthighlight, null, null);
+      output.setOption("theme", "green");
     }
+  }
 }
 
 function toOutput() {

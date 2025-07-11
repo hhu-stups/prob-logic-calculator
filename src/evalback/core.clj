@@ -25,6 +25,8 @@
            (de.be4.classicalb.core.parser.node TIdentifierLiteral AImplicationPredicate)))
 
 (def varname [(TIdentifierLiteral. "_lambda_result_")])
+(def prob-preferences {"MAXINT" "127"
+                       "MININT" "-128"})
 
 (def instances 4)
 (def prob-timeout 3000)
@@ -197,7 +199,7 @@
 
 
 (defn start-empty-animator []
-  (.load (.create b-factory "MACHINE empty\nEND") {"MAXINT" "127" "MININT" "-128"}))
+  (.load (.create b-factory "MACHINE empty\nEND") prob-preferences))
 
 (defn mk-worker []
   (let [animator (start-empty-animator)]

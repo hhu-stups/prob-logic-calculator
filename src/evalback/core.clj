@@ -86,11 +86,13 @@
           {:prob-version (str (.getVersion version-cmd))})))
 
 (defn run-eval [ss resp]
-  (try (run-eval-internal ss resp)
-       (catch Exception e
-         (println e)
-         (into resp {:status :error
-                     :result (.getMessage e)}))))
+  (if (empty? (.trim input))
+    (into resp {:status :empty})
+    (try (run-eval-internal ss resp)
+         (catch Exception e
+           (println e)
+           (into resp {:status :error
+                       :result (.getMessage e)})))))
 
 
 (defn solve [request]
@@ -155,9 +157,11 @@
 
 (defn old-json [{:keys [status result input introduced has-free-vars? bindings]}]
   (json/write-str
-   (if (= status :error)
-     {:output (str "Error: " result)}
-     {:output (valid-reply result input introduced has-free-vars? bindings)})))
+   (case status
+     :empty {:output ""}
+     :error {:output (str "Error: " result)}
+     :ok {:output (valid-reply result input introduced has-free-vars? bindings)}
+     {:output (str "Internal error (" status "): " result)})))
 
 (defn old-json-answer [req]
   (let [formalism (get-in req [:params "formalism"])
@@ -182,7 +186,7 @@
   (GET "/js/examples.js" [] (provide-examples))
   (ANY "/version" [] (:prob-version (solve {:formalism :b
                                             :input "1=1"})))
-  (POST "/xxx" [formalism input] (if (empty? (.trim  input)) (json/write-str {:output  ""}) old-json-answer))
+  (POST "/xxx" [formalism input] old-json-answer)
   (resources "/")
   (not-found "Not Found"))
 

@@ -3,18 +3,18 @@
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :plugins [[lein-ring "0.12.5"]]
+  :plugins [[lein-ring "0.12.6"]]
   :java-source-paths ["src/java"]
   ;;:repositories [["snaps" "https://oss.sonatype.org/content/repositories/snapshots/"]]
   :dependencies [
-                 [ch.qos.logback/logback-classic "1.3.7"]
-                 [org.clojure/clojure "1.8.0"]
-                 [compojure "1.6.1"]
-                 [org.clojure/data.json "0.2.6"]
-                 [org.clojure/core.async "0.4.490"]
-                 [de.hhu.stups/de.prob2.kernel "4.12.1"]
-                 [hiccup "1.0.5"]
-                 [ring/ring-core "1.7.1"]
+                 [ch.qos.logback/logback-classic "1.5.18"]
+                 [org.clojure/clojure "1.12.1"]
+                 [compojure "1.7.1"]
+                 [org.clojure/data.json "2.5.1"]
+                 [org.clojure/core.async "1.8.741"]
+                 [de.hhu.stups/de.prob2.kernel "4.15.0"]
+                 [hiccup "2.0.0"]
+                 [ring/ring-core "1.14.2"]
                  ]
   :main evalback.core
   :ring {:handler evalback.core/handler

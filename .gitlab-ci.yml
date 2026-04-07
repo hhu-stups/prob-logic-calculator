@@ -1,3 +1,4 @@
+---
 Build, and push new Dockerimage:
   stage: build
   image: docker:latest
@@ -6,7 +7,7 @@ Build, and push new Dockerimage:
   before_script:
     - echo "${CI_REGISTRY_PASSWORD}" | docker login --username "${CI_REGISTRY_USER}" --password-stdin "${CI_REGISTRY}"
   script:
-    - docker image build --tag "${CI_REGISTRY_IMAGE}:latest" .
+    - docker image build --tag "${CI_REGISTRY_IMAGE}:latest" --pull .
     - docker image push "${CI_REGISTRY_IMAGE}:latest"
 
 Tell the server:
@@ -17,3 +18,4 @@ Tell the server:
     - apk add openssh-client
   script:
     - ssh -i "${DEPLOY_KEY}" -o UserKnownHostsFile="${DEPLOY_HOST_KEYS}" deploy@"${DEPLOY_HOST}"
+...

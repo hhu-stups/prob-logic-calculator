@@ -1,4 +1,4 @@
-FROM clojure:temurin-8-lein AS base
+FROM clojure:temurin-17-lein AS base
 COPY . /app
 WORKDIR /app
 RUN lein ring uberjar

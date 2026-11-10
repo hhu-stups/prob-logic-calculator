@@ -210,6 +210,7 @@
                            result-future
                            prob-timeout
                            (into request {:status :error :result "Timeout"}))]
+                (.sendInterrupt animator)
                 (future-cancel result-future)
                 result)
                {}

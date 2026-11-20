@@ -188,7 +188,7 @@
   (GET "/js/examples.js" [] (provide-examples))
   (ANY "/version" [] (:prob-version (solve {:formalism :b
                                             :input "1=1"})))
-  (GET "/jdk" [] (str Runtime/version))
+  (GET "/jdk" [] (str (Runtime/version)))
   (POST "/xxx" [formalism input] old-json-answer)
   (resources "/")
   (not-found "Not Found"))

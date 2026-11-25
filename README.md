@@ -12,8 +12,8 @@ We use some great libaries:
 
 ## Deployment
 
-The application is deployed automatically to Heroku when a commit is pushed to
-the `master` branch.
+The application is deployed automatically when a commit is pushed to the
+`master` branch.
 
 ## License
 

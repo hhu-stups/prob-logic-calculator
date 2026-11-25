@@ -1,21 +1,32 @@
 ---
-Build, and push new Dockerimage:
+Build the Containerimage:
   stage: build
-  image: docker:latest
-  services:
-    - docker:dind
-  before_script:
-    - echo "${CI_REGISTRY_PASSWORD}" | docker login --username "${CI_REGISTRY_USER}" --password-stdin "${CI_REGISTRY}"
+  image: quay.io/buildah/stable:v1
+  interruptible: true
+  variables:
+    STORAGE_DRIVER: vfs
   script:
-    - docker image build --tag "${CI_REGISTRY_IMAGE}:latest" --pull .
-    - docker image push "${CI_REGISTRY_IMAGE}:latest"
+    - printf '%s' "$CI_REGISTRY_PASSWORD" | buildah login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
+    - buildah build -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" .
+    - buildah push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
 
 Tell the server:
   stage: deploy
   image: alpine:latest
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  environment: production
+  resource_group: production
   before_script:
-    - chmod 0400 "${DEPLOY_KEY}" "${DEPLOY_HOST_KEYS}"
+    - chmod 0400 "${DEPLOY_KEY}"
     - apk add openssh-client
   script:
-    - ssh -i "${DEPLOY_KEY}" -o UserKnownHostsFile="${DEPLOY_HOST_KEYS}" deploy@"${DEPLOY_HOST}"
+    - ': "${CI_DEPLOY_USER:?}" "${CI_DEPLOY_PASSWORD:?}"'
+    - |
+      printf 'CREDENTIAL_1_REGISTRY=%s\nCREDENTIAL_1_USERNAME=%s\nCREDENTIAL_1_PASSWORD=%s\n' \
+        "${CI_REGISTRY}" "${CI_DEPLOY_USER}" "${CI_DEPLOY_PASSWORD}" |
+      ssh -i "${DEPLOY_KEY}" \
+        -o BatchMode=yes \
+        -o GlobalKnownHostsFile="${DEPLOY_KNOWN_HOSTS}" \
+        deploy@"${DEPLOY_HOST}"
 ...

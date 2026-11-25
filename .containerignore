@@ -1,0 +1,6 @@
+# Deny everything by default, only allow what the build actually needs.
+*
+!project.clj
+!src
+!resources
+!examples
